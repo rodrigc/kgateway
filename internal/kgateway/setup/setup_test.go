@@ -115,16 +115,31 @@ func init() {
 }
 
 func TestServiceEntry(t *testing.T) {
-	st, err := settings.BuildSettings()
-	if err != nil {
-		t.Fatalf("can't get settings %v", err)
-	}
+	// t.Run("no DR plugin", func(t *testing.T) {
+	// 	st, err := settings.BuildSettings()
+	// 	if err != nil {
+	// 		t.Fatalf("can't get settings %v", err)
+	// 	}
+	// 	st.EnableIstioIntegration = false
+	// 	runScenario(t, "testdata/serviceentry", st)
+	// })
 
-	runScenario(t, "testdata/serviceentry", st)
+	t.Run("DR plugin enabled", func(t *testing.T) {
+		st, err := settings.BuildSettings()
+		if err != nil {
+			t.Fatalf("can't get settings %v", err)
+		}
+		st.EnableIstioIntegration = true
+
+		// // we can re-run these with the plugin on and expect nothing to change
+		// runScenario(t, "testdata/serviceentry", st)
+
+		// these exercise applying a DR to a ServiceEntry
+		runScenario(t, "testdata/serviceentry/dr", st)
+	})
 }
 
 func TestWithStandardSettings(t *testing.T) {
-	t.Skip()
 	st, err := settings.BuildSettings()
 	if err != nil {
 		t.Fatalf("can't get settings %v", err)
@@ -133,7 +148,6 @@ func TestWithStandardSettings(t *testing.T) {
 }
 
 func TestWithAutoDns(t *testing.T) {
-	t.Skip()
 	st, err := settings.BuildSettings()
 	if err != nil {
 		t.Fatalf("can't get settings %v", err)
@@ -144,7 +158,6 @@ func TestWithAutoDns(t *testing.T) {
 }
 
 func TestScenarios(t *testing.T) {
-	t.Skip()
 	st, err := settings.BuildSettings()
 	if err != nil {
 		t.Fatalf("can't get settings %v", err)
@@ -200,7 +213,6 @@ func addApiServerLogs(t *testing.T, testEnv *envtest.Environment) {
 }
 
 func TestPolicyUpdate(t *testing.T) {
-	t.Skip()
 	st, err := settings.BuildSettings()
 	if err != nil {
 		t.Fatalf("can't get settings %v", err)
