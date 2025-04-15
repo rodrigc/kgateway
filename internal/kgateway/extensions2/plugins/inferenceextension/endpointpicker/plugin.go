@@ -346,7 +346,7 @@ func (p *endpointPickerPass) ResourcesToAdd(ctx context.Context) ir.Resources {
 }
 
 // processBackendObjectIR builds the ORIGINAL_DST cluster for each InferencePool.
-func processBackendObjectIR(ctx context.Context, in ir.BackendObjectIR, out *clusterv3.Cluster) {
+func processBackendObjectIR(ctx context.Context, in ir.BackendObjectIR, out *clusterv3.Cluster) *ir.EndpointsForBackend {
 	out.ConnectTimeout = durationpb.New(1000 * time.Second)
 
 	out.ClusterDiscoveryType = &clusterv3.Cluster_Type{
@@ -372,6 +372,8 @@ func processBackendObjectIR(ctx context.Context, in ir.BackendObjectIR, out *clu
 	}
 
 	out.Name = clusterNameOriginalDst(in.Name, in.Namespace)
+
+	return nil
 }
 
 // buildExtProcCluster builds and returns a “STRICT_DNS” cluster from the given pool.

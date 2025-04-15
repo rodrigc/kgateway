@@ -80,8 +80,10 @@ type KGwTranslator interface {
 		gateway *ir.Gateway,
 		reporter reports.Reporter) *ir.GatewayIR
 }
-type GwTranslatorFactory func(gw *gwv1.Gateway) KGwTranslator
-type ContributesPolicies map[schema.GroupKind]PolicyPlugin
+type (
+	GwTranslatorFactory func(gw *gwv1.Gateway) KGwTranslator
+	ContributesPolicies map[schema.GroupKind]PolicyPlugin
+)
 
 type Plugin struct {
 	ContributesPolicies     ContributesPolicies
@@ -94,9 +96,11 @@ type Plugin struct {
 	ExtraHasSynced func() bool
 }
 
-type AncestorReports map[ir.ObjectSource][]error
-type PolicyReport map[ir.AttachedPolicyRef]AncestorReports
-type ProcessPolicyStatus func(ctx context.Context, gkString string, polReport PolicyReport)
+type (
+	AncestorReports     map[ir.ObjectSource][]error
+	PolicyReport        map[ir.AttachedPolicyRef]AncestorReports
+	ProcessPolicyStatus func(ctx context.Context, gkString string, polReport PolicyReport)
+)
 
 func (p PolicyPlugin) AttachmentPoints() AttachmentPoints {
 	var ret AttachmentPoints
